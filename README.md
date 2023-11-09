@@ -28,7 +28,7 @@ Create a HTML file to implement form based input and output.
 Publish the website in the given URL.
 
 ## PROGRAM :
-##math.html:
+## math.html:
 ```
 <html>
 
@@ -108,7 +108,7 @@ Publish the website in the given URL.
 
 </html>
 ```
-##views.py:
+## views.py:
 ```
 
 from django.shortcuts import render
@@ -132,7 +132,7 @@ def prismarea(request):
         print('Area=',area)
     return render(request,'jaiapp/math.html',context)
 ```
-##urls.py:
+## urls.py:
 ```
 """
 URL configuration for jai project.
