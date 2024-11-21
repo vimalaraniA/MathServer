@@ -1,11 +1,11 @@
 # Ex.05 Design a Website for Server Side Processing
-## Date:04/11/24
-
 ## AIM:
-To design a website to find total surface area of a square prism in server side.
+To design a website to find surface area of a Right Cylinder in server side.
 
 ## FORMULA:
-![image](https://github.com/selvasachein/MathServer/assets/120453887/8ecc8d12-b9a9-43df-be0b-711f299d796d)
+Surface Area = 2Πrh + 2Πr<sup>2</sup>
+<br>r --> Radius of Right Cylinder
+<br>h --> Height of Right Cylinder
 
 ## DESIGN STEPS:
 
@@ -28,146 +28,114 @@ Create a HTML file to implement form based input and output.
 Publish the website in the given URL.
 
 ## PROGRAM :
-## math.html:
 ```
 <html>
-
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Area of Square Prism</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <style type="text/css">
-        body {
-            background-color:green;
-        }
-
-        .edge {
-            display: flex;
-            height: 100vh;
-            width: 100%;    
-            justify-content: center;
-            align-items: center;
-        }
-
-        .box {
-            display: block;
-            width: 500px;
-            min-height: 300px;
-            font-size: 20px;
-            background: rgb(142, 152, 7);
-            background: linear-gradient(90deg, rgb(152, 7, 104) 9%, rgb(0, 7, 90) 56%);
-            border-radius: 10px;
-            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-        }
-
-        .formelt {
-            color: red;
-            text-align: center;
-            margin-top: 7px;
-            margin-bottom: 6px;
-        }
-
-        h1 {
-            color: white;
-            text-align: center;
-            padding-top: 20px;
-        }
-        input{
-            margin: 5px;
-            padding: 5px;
-            border-radius: 5px;
-            border: none;
-
-        }
-    </style>
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+<title>Area of Surface</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<style type="text/css">
+body {
+    background-color: #0d8d88f2;
+}
+.edge {
+    width: 100%;
+    padding-top: 180px;
+    text-align: center;
+}
+.box {
+    display: inline-block;
+    border: thick dashed #cd4f8e;
+    width: 500px;
+    min-height: 300px;
+    font-size: 20px;
+    background-color: rgb(67, 122, 204);
+}
+.formelt {
+    color: black;
+    text-align: center;
+    margin-top: 8px;
+    margin-bottom: 6px;
+}
+h1 {
+    color: black;
+    padding-top: 20px;
+}
+</style>
 </head>
-
 <body>
-    <div class="edge">
-        <div class="box">
-            <h1>Area of  Square Prism</h1>
-            <form method="POST">
-                {% csrf_token %}
-                <div class="formelt">
-                    base : <input type="text" name="length" value="{{a}}"></input>(in m)<br />
-                </div>
-                <div class="formelt">
-                    Height : <input type="text" name="breadth" value="{{h}}"></input>(in m)<br />
-                </div>
-                <div class="formelt">
-                    <input type="submit" value="Calculate"></input><br />
-                </div>
-                <div class="formelt">
-                    Area : <input type="text" name="area" value="{{area}}"></input>m<sup>2</sup><br />
-                </div>
-            </form>
-        </div>
+<div class="edge">
+    <div class="box">
+        <h1>Surface Area of Right Cylinder</h1>
+        <h3>jaswanth S (212223220037)</h3>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="formelt">
+                Radius: <input type="text" name="radius" value="{{r}}"></input>m<br/>
+            </div>
+            <div class="formelt">
+                Height: <input type="text" name="height" value="{{h}}"></input>m<br/>
+            </div>
+            <div class="formelt">
+                <input type="submit" value="Calculate"></input><br/>
+            </div>
+            <div class="formelt">
+                Area: <input type="text" name="area" value="{{area}}">m<sup>2</sup><br/>
+            </div>
+        </form>
     </div>
+</div>
 </body>
-
 </html>
 ```
-## views.py:
 ```
+views.py
 
 from django.shortcuts import render
-
-def prismarea(request):
-    context={}
+def surfacearea(request):
+    context = {}
     context['area'] = "0"
-    context['a'] = "0"
+    context['r'] = "0"
     context['h'] = "0"
     if request.method == 'POST':
         print("POST method is used")
-        a = request.POST.get('length','0')
-        h = request.POST.get('breadth','0')
-        print('request=',request)
-        print('Length=',a)
-        print('Breadth=',h)
-        area = 2*(int(a)**2) + 4*int(a)*int(h)
+        print('request.POST:', request.POST)
+        r = request.POST.get('radius', '0') 
+        h = request.POST.get('height', '0') 
+        print('radius =', r)
+        print('height =', h)
+        area = 2 * 3.14 * int(r) * int(h) + 2*3.14*int(r)*int(r)
         context['area'] = area
-        context['a'] = a
+        context['r'] = r
         context['h'] = h
-        print('Area=',area)
-    return render(request,'jaiapp/math.html',context)
+        print('Area =', area)
+    
+    return render(request, 'mathapp/math.html',context)
 ```
-## urls.py:
 ```
-"""
-URL configuration for jai project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
+urls.py
 
 from django.contrib import admin
 from django.urls import path
-from jaiapp import views
+from mathapp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('areaofrectangle/',views.prismarea,name="areaofrectangle"),
-    path('',views.prismarea,name="areaofrectangleroot")
+    path('surfacearea/',views.surfacearea,name="surfacearea"),
+    path('',views.surfacearea,name="surfcaearea")
 ]
 ```
 
 
+## SERVER SIDE PROCESSING:
+![image](https://github.com/23013633/MathServer/assets/150005961/d00a40b8-0483-4a23-b009-7a83d74113c9)
 
-## OUTPUT:
-![Screenshot (5)](https://github.com/jaisurya143/MathServer/assets/121999338/1f6cb1d8-1390-4128-b493-af3b7eeb516e)
-![Screenshot 2023-11-09 224848](https://github.com/jaisurya143/MathServer/assets/121999338/96539b0d-e3e5-41ac-b715-607ccae00a4d)
+
+## HOMEPAGE:
+![Screenshot 2024-05-09 091709](https://github.com/23013633/MathServer/assets/150005961/c8f50202-3207-4ba1-988b-f4625ca3fa32)
 
 
 
 ## RESULT:
 The program for performing server side processing is completed successfully.
+
